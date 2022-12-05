@@ -1,6 +1,6 @@
-const fs = require("fs");
+import fs from "fs";
 
-class ProductManager {
+export default class ProductManager {
 	constructor() {
 		this.path = "./archivosMemoria/products.json";
 		this.products = [];
@@ -56,13 +56,12 @@ class ProductManager {
 		for (const producto of this.products) {
 			console.log(producto);
 		}
+		return this.products;
 	}
 
 	getProductById(productId) {
-		console.log(
-			"Este es el producto que buscas:",
-			this.products.find((producto) => producto.id === productId)
-		);
+		let product = this.products.find((producto) => producto.id === productId);
+		return product;
 	}
 
 	updateProduct(productId, key, newValue) {
@@ -85,26 +84,3 @@ class ProductManager {
 }
 
 const productManager = new ProductManager();
-
-//Proceso de Testing-----------------------------------------------------------------------------------------------------------------
-
-productManager.getProducts();
-
-productManager.addProduct(
-	"producto prueba",
-	"Este es un producto prueba",
-	200,
-	"Sin Imagen",
-	"abc123",
-	25
-);
-
-productManager.getProducts();
-
-productManager.updateProduct(1, "price", 400);
-
-productManager.getProductById(1);
-
-productManager.deleteProduct(1);
-
-productManager.getProducts();

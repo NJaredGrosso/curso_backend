@@ -1,0 +1,24 @@
+{
+  "name": "curso_backend",
+  "version": "1.0.0",
+  "description": "Proyectos a entregar a lo largo del curso de backend de CoderHouse",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RisaRoja/curso_backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RisaRoja/curso_backend/issues"
+  },
+  "homepage": "https://github.com/RisaRoja/curso_backend#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "type": "module"
+}
