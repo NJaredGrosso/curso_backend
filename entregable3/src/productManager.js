@@ -1,6 +1,6 @@
 import fs from "fs";
 
-export default class ProductManager {
+export class ProductManager {
 	constructor() {
 		this.path = "./archivosMemoria/products.json";
 		this.products = [];
@@ -52,15 +52,13 @@ export default class ProductManager {
 	}
 
 	getProducts() {
-		console.log("Todos los productos:");
-		for (const producto of this.products) {
-			console.log(producto);
-		}
-		return this.products;
+		let productos = JSON.parse(fs.readFileSync(this.path));
+		return productos;
 	}
 
 	getProductById(productId) {
-		let product = this.products.find((producto) => producto.id === productId);
+		let productos = JSON.parse(fs.readFileSync(this.path));
+		let product = productos.find((producto) => producto.id === productId);
 		return product;
 	}
 
@@ -82,5 +80,3 @@ export default class ProductManager {
 		console.log("Producto eliminado"); //Confirmamos por consola
 	}
 }
-
-const productManager = new ProductManager();
