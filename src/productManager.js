@@ -9,16 +9,27 @@ export class ProductManager {
 		}
 	}
 
-	addProduct(title, description, price, thumbnail, code, stock) {
+	addProduct(
+		title,
+		description,
+		code,
+		price,
+		status,
+		stock,
+		category,
+		thumbnails
+	) {
 		const producto = {
 			//Asignamos los values a las keys
 			id: this.#getNewId(),
 			title: title,
 			description: description,
-			price: price,
-			thumbnail: thumbnail,
 			code: code,
+			price: price,
+			status: status,
 			stock: stock,
+			category: category,
+			thumbnails: thumbnails,
 		};
 
 		let valores = Object.values(producto);
@@ -68,7 +79,7 @@ export class ProductManager {
 		this.deleteProduct(productId); //reemplazamos el producto viejo por el actualizado
 		this.products.push(producto);
 		this.#updateProductsFile(); //Actualizamos los archivos de memoria
-		console.log("Producto Actualizado"); //Confirmamos por consola
+		console.log("Valor Actualizado"); //Confirmamos por consola
 	}
 
 	deleteProduct(productId) {
@@ -76,7 +87,6 @@ export class ProductManager {
 			//Filtramos la lista quitando el objeto que contiene el Id que se solisito eliminar
 			(producto) => producto.id != productId
 		);
-		this.#updateProductsFile(); //Actualizamos los archivos de memoria
-		console.log("Producto eliminado"); //Confirmamos por consola
+		this.#updateProductsFile(); //Actualizamos los archivos de memoria //Confirmamos por consola
 	}
 }

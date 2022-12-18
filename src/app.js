@@ -1,34 +1,16 @@
 import express from "express";
+import productsRouter from "./routes/products.router.js";
+import cartsRouter from "./routes/carts.router.js";
+
 const app = express();
-
-import { ProductManager } from "./productManager.js";
-const prm = new ProductManager();
-
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/products", (req, res) => {
-	let limit = req.query.limit;
-	let products = prm.getProducts();
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
 
-	if (limit > -1) {
-		let productsLimited = [];
-		for (let cuenta = 0; cuenta < limit; cuenta++) {
-			productsLimited.push(prm.products[cuenta]);
-		}
-		return res.send(productsLimited);
-	} else {
-		return res.send(products);
-	}
-});
-
-app.get("/products/:pid", (req, res) => {
-	let product = prm.getProductById(parseInt(req.params.pid));
-
-	if (product != undefined) {
-		return res.send(product);
-	} else {
-		return res.send("ERROR 404 \n Product not found");
-	}
-});
-
-app.listen(8080, () => console.log("¡Servidor arriba en puerto 8080!"));
+const PORT = 8080;
+const server = app.listen(PORT, () =>
+	console.log(`🚀 Server started on port http://localhost:${PORT}`)
+);
+server.on("error", (err) => console.log(err));
