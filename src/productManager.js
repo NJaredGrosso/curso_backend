@@ -2,7 +2,7 @@ import fs from "fs";
 
 export class ProductManager {
 	constructor() {
-		this.path = "./archivosMemoria/products.json";
+		this.path = "archivosMemoria/products.json";
 		this.products = [];
 		if (fs.existsSync(this.path)) {
 			this.products = JSON.parse(fs.readFileSync(this.path));

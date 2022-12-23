@@ -5,7 +5,7 @@ const prm = new ProductManager();
 
 export class CartsManager {
 	constructor() {
-		this.path = "./archivosMemoria/carrito.json";
+		this.path = "../archivosMemoria/carrito.json";
 		this.carts = [];
 		if (fs.existsSync(this.path)) {
 			this.carts = JSON.parse(fs.readFileSync(this.path));

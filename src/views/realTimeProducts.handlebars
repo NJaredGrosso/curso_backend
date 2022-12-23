@@ -1,0 +1,41 @@
+<div>
+	<h1>LISTA DE PRODUCTOS EN TIEMPO REAL</h1>
+	<div id="main">
+		<div id="actions">
+			<div id="loadProduct">
+				<input type="text" class="input" id="title" placeholder="Nombre" />
+				<input
+					type="text"
+					class="input"
+					id="description"
+					placeholder="Descripcion"
+				/>
+				<input type="text" class="input" id="code" placeholder="Codigo" />
+				<input type="number" class="input" id="price" placeholder="Precio" />
+				<input type="text" class="input" id="status" placeholder="Status" />
+				<input type="number" class="input" id="stock" placeholder="Stock" />
+				<input
+					type="text"
+					class="input"
+					id="category"
+					placeholder="Categoria"
+				/>
+				<input
+					type="text"
+					class="input"
+					id="thumbnails"
+					placeholder="img dir"
+				/>
+				<button id="uploadProduct">Cargar producto</button>
+			</div>
+			<div id="deleteProduct">
+				<input type="number" id="delId" placeholder="Id" class="input" />
+				<button id="delete">Eliminar producto</button>
+			</div>
+		</div>
+		<div id="productos"> </div>
+	</div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/socket.js"></script>
