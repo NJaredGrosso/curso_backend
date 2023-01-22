@@ -1,4 +1,17 @@
-import { Router } from "express";
+import express from "express";
+import * as ProductsController from "../controllers/products.controller.js";
+
+const route = express.Router();
+
+route.get("/", ProductsController.getProducts);
+route.get("/:pid", ProductsController.getProduct);
+route.post("/", ProductsController.createProduct);
+route.put("/:pid", ProductsController.updateProduct);
+route.delete("/:pid", ProductsController.deleteProduct);
+
+export default route;
+
+/*import { Router } from "express";
 const router = Router();
 import { ProductManager } from "../productManager.js";
 const prm = new ProductManager();
@@ -73,9 +86,9 @@ router.put("/:pid", (req, res) => {
 
 router.delete("/:pid", (req, res) => {
 	let pid = parseInt(req.params.pid);
-
 	prm.deleteProduct(pid);
 	console.log("PRODUCTO ELIMINADO");
+	return res.send(pid + " Borrado correctamente");
 });
-
 export default router;
+*/

@@ -1,16 +1,5 @@
 [
     {
-        "id": 11,
-        "title": "manzana",
-        "description": "una fruta",
-        "code": "abc123",
-        "price": 200,
-        "status": true,
-        "stock": 12,
-        "category": "frutas",
-        "thumbnails": ""
-    },
-    {
         "id": 12,
         "title": "manzana",
         "description": "una fruta",
@@ -19,17 +8,6 @@
         "status": true,
         "stock": 45,
         "category": "frutas",
-        "thumbnails": ""
-    },
-    {
-        "id": 13,
-        "title": "Fideo Matarazzo",
-        "description": "Fideo largo tipo spagetti",
-        "code": "thd549",
-        "price": 280,
-        "status": true,
-        "stock": 9,
-        "category": "pastas",
         "thumbnails": ""
     },
     {
