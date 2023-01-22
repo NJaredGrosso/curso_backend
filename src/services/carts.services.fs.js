@@ -1,6 +1,6 @@
 import fs from "fs";
 
-import { ProductManager } from "./productManager.js";
+import { ProductManager } from "./products.services.fs.js";
 const prm = new ProductManager();
 
 export class CartsManager {

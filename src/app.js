@@ -1,10 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
-import "./config/db.js";
-import { engine } from "express-handlebars";
+import bodyParser from "body-parser";
 import __dirname from "./utils.js";
+import { engine } from "express-handlebars";
 import { Server } from "socket.io";
-import { ProductManager } from "./productManager.js";
+import { ProductManager } from "./services/products.services.fs.js";
+import "./config/db.js";
 
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
@@ -18,6 +19,8 @@ app.engine("handlebars", engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(__dirname + "/public"));
+
+app.use(bodyParser.json());
 
 app.use("/", viewsRouter);
 
