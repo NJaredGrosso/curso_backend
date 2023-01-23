@@ -3,20 +3,18 @@ import * as ProductsController from "../controllers/products.controller.js";
 
 const route = express.Router();
 
+//Usando MongoDB//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 route.get("/", ProductsController.getProducts);
 route.get("/:pid", ProductsController.getProduct);
 route.post("/", ProductsController.createProduct);
 route.put("/:pid", ProductsController.updateProduct);
 route.delete("/:pid", ProductsController.deleteProduct);
 
-export default route;
-
-/*import { Router } from "express";
-const router = Router();
-import { ProductManager } from "../productManager.js";
+//Usando File System//////////////////////////////////////////////////////////////////////////////////////////////////////////
+import { ProductManager } from "../services/products.services.fs.js";
 const prm = new ProductManager();
 
-router.get("/", (req, res) => {
+route.get("/fs", (req, res) => {
 	let limit = req.query.limit;
 	let products = prm.getProducts();
 
@@ -31,7 +29,7 @@ router.get("/", (req, res) => {
 	}
 });
 
-router.get("/:pid", (req, res) => {
+route.get("/fs/:pid", (req, res) => {
 	let product = prm.getProductById(parseInt(req.params.pid));
 
 	if (product != undefined) {
@@ -41,7 +39,7 @@ router.get("/:pid", (req, res) => {
 	}
 });
 
-router.post("/", (req, res) => {
+route.post("/fs", (req, res) => {
 	//obtenemos el objeto
 	let newProduct = req.body;
 
@@ -68,7 +66,7 @@ router.post("/", (req, res) => {
 	);
 });
 
-router.put("/:pid", (req, res) => {
+route.put("/fs/:pid", (req, res) => {
 	//obtenemos los req
 	let object = req.body;
 	let pid = parseInt(req.params.pid);
@@ -84,11 +82,11 @@ router.put("/:pid", (req, res) => {
 	console.log("VALORES ACTUALIZADOS CORRECTAMENTE"); //Confirmamos por consola
 });
 
-router.delete("/:pid", (req, res) => {
+route.delete("/fs/:pid", (req, res) => {
 	let pid = parseInt(req.params.pid);
 	prm.deleteProduct(pid);
 	console.log("PRODUCTO ELIMINADO");
 	return res.send(pid + " Borrado correctamente");
 });
-export default router;
-*/
+
+export default route;
