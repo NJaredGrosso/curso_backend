@@ -21,14 +21,9 @@ app.engine("handlebars", engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(__dirname + "/public"));
-app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use("/", viewsRouter);
-
-app.use("/api/users", (req, res) => {
-	res.json({ user: [] });
-});
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);

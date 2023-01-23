@@ -25,7 +25,7 @@ if (!user) {
 
 socket.on("newUser", (nombre) => {
 	Swal.fire({
-		text: `Nuevo usuari@ ${nombre} conectad@`,
+		text: `Nuevo usuario conectado, diganle hola a ${nombre} `,
 		toast: true,
 		position: "top-right",
 	});
