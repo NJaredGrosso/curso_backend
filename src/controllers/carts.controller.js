@@ -35,8 +35,7 @@ export async function createCart(req, res) {
 }
 export async function addProductToCart(req, res) {
 	try {
-		const { cid } = req.params;
-		const { pid } = req.params;
+		const { cid, pid } = req.params;
 		const response = await CartsServices.addProductToCart(cid, pid);
 		res.status(200).json({
 			user: response,

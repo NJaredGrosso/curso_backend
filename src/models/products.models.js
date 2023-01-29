@@ -6,6 +6,7 @@ const schema = new mongoose.Schema(
 		title: {
 			type: String,
 			required: true,
+			index: true,
 		},
 		description: {
 			type: String,
@@ -21,6 +22,7 @@ const schema = new mongoose.Schema(
 			type: Number,
 			required: true,
 			min: 0,
+			index: true,
 		},
 		status: {
 			type: Boolean,
@@ -34,6 +36,7 @@ const schema = new mongoose.Schema(
 		category: {
 			type: String,
 			required: true,
+			index: true,
 		},
 		thumbnails: {
 			type: String,

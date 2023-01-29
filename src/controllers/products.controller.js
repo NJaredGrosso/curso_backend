@@ -3,8 +3,19 @@ import { STATUS } from "../constants/constants.js";
 
 export async function getProducts(req, res) {
 	try {
-		const response = await ProductsServices.getProducts();
+		let limit = req.query.limit || 10;
+		let page = Number(req.query.page) || 1;
+		let sort = req.query.sort;
+		let query = req.query.query;
+
+		const response = await ProductsServices.getProducts(
+			limit,
+			page,
+			sort,
+			query
+		);
 		res.json({
+			query,
 			user: response,
 			status: STATUS.SUCCES,
 		});

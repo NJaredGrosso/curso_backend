@@ -12,6 +12,7 @@ import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import viewsRouter from "./routes/views.route.js";
 import messagesRouter from "./routes/messsages.router.js";
+import { Schema } from "mongoose";
 
 dotenv.config();
 const app = express();

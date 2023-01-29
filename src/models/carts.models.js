@@ -1,25 +1,17 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const schema = new mongoose.Schema(
 	{
 		products: [
 			{
-				title: {
-					type: String,
-					required: true,
-				},
-				price: {
-					type: Number,
-					required: true,
+				producto: {
+					type: Schema.Types.String,
+					ref: "Products",
 				},
 				quantity: {
 					type: Number,
 					required: true,
-					min: 1,
-				},
-				code: {
-					type: String,
-					required: true,
+					min: 0,
 				},
 			},
 		],

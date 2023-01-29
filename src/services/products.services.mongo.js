@@ -1,11 +1,43 @@
 import { ProductsModel } from "../models/products.models.js";
 
-export async function getProducts() {
+export async function getProducts(limit, page, sort, query) {
 	try {
-		const products = await ProductsModel.find({
-			deletedAt: { $exists: false },
-		});
-		return products;
+		if (sort) {
+			if (sort === "asc") sort = 1;
+			if (sort === "desc") sort = -1;
+		}
+		let valores = {};
+		if (query) {
+			valores = {
+				deletedAt: { $exists: false },
+				category: query,
+			};
+		} else {
+			valores = { deletedAt: { $exists: false } };
+		}
+
+		const products = await ProductsModel.find(valores)
+			.limit(limit)
+			.skip(page !== 1 ? (page - 1) * limit : 0)
+			.sort({ price: sort });
+		const pages = Math.ceil(
+			(await ProductsModel.countDocuments(valores)) / limit
+		);
+		const prevPage = page - 1;
+		const nextPage = page + 1;
+		const hasPrevPage = prevPage <= 0 ? false : true;
+		const hasNextPage = nextPage > pages ? false : true;
+
+		const respuesta = {
+			status: "succes",
+			payload: products,
+			totalPages: pages,
+			prevPage: prevPage,
+			nextPage: nextPage,
+			hasPrevPage: hasPrevPage,
+			hasNextPage: hasNextPage,
+		};
+		return respuesta;
 	} catch (error) {
 		throw new Error(error.message);
 	}

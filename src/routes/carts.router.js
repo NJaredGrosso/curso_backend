@@ -6,6 +6,7 @@ import * as CartsController from "../controllers/carts.controller.js";
 router.post("/", CartsController.createCart);
 router.get("/:cid", CartsController.getCart);
 router.post("/:cid/product/:pid", CartsController.addProductToCart);
+router.delete("/:cid/products/:pid");
 
 //Usando File System //////////////////////////////////////////////////////////////////////////////////
 import { CartsManager } from "../services/carts.services.fs.js";

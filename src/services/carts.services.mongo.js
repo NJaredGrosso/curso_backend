@@ -1,9 +1,8 @@
 import { CartsModel } from "../models/carts.models.js";
-import { getProduct } from "./products.services.mongo.js";
 
 export async function getCart(cid) {
 	try {
-		const cart = await CartsModel.findById(cid);
+		const cart = await CartsModel.findById(cid).populate("products.producto");
 		return cart;
 	} catch (error) {
 		throw new Error(error.message);
@@ -19,37 +18,28 @@ export async function createCart(data) {
 }
 export async function addProductToCart(cid, pid) {
 	try {
-		const product = await getProduct(pid);
-		const carrito = await getCart(cid);
-		const products = carrito.products;
+		const cart = await CartsModel.findById(cid);
+		const products = cart.products;
 		let exist = false;
-		let quantity;
-		for (const producto of products) {
-			if (producto.code === product.code) {
+		let quantity = 1;
+		for (let product of products) {
+			const productId = product.producto;
+			if (productId === pid) {
 				exist = true;
-				quantity = producto.quantity + 1;
+				quantity = product.quantity + 1;
 			}
 		}
-		const data = {
-			title: product.title,
-			price: product.price,
-			quantity: 1,
-			code: product.code,
-		};
 		if (exist) {
-			const cart = await CartsModel.findOneAndUpdate(
-				{ _id: cid, products: { $elemMatch: { code: product.code } } },
+			await CartsModel.findOneAndUpdate(
+				{ _id: cid, products: { $elemMatch: { producto: pid } } },
 				{ $set: { "products.$.quantity": quantity } },
 				{ new: true }
 			);
-			return cart;
+			return "Cantidad incrementada";
 		} else {
-			const cart = await CartsModel.findByIdAndUpdate(
-				cid,
-				{ $push: { products: data } },
-				{ new: true }
-			);
-			return cart;
+			cart.products.push({ producto: pid, quantity: quantity });
+			cart.save();
+			return "Producto agregado";
 		}
 	} catch (error) {
 		throw new Error(error.message);
