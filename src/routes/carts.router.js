@@ -3,10 +3,13 @@ const router = Router();
 import * as CartsController from "../controllers/carts.controller.js";
 
 //Usando MongoDB///////////////////////////////////////////////////////////////////////////////////////
-router.post("/", CartsController.createCart);
 router.get("/:cid", CartsController.getCart);
-router.post("/:cid/product/:pid", CartsController.addProductToCart);
-router.delete("/:cid/products/:pid");
+router.post("/", CartsController.createCart);
+router.post("/:cid/products/:pid", CartsController.addProductToCart);
+router.put("/:cid", CartsController.addProductsToCart);
+router.put("/:cid/products/:pid", CartsController.updateQuantityOfProduct);
+router.delete("/:cid/products/:pid", CartsController.deleteProductToCart);
+router.delete("/:cid", CartsController.deleteAllProductsToCart);
 
 //Usando File System //////////////////////////////////////////////////////////////////////////////////
 import { CartsManager } from "../services/carts.services.fs.js";

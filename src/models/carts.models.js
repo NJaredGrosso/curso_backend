@@ -4,9 +4,10 @@ const schema = new mongoose.Schema(
 	{
 		products: [
 			{
-				producto: {
-					type: Schema.Types.String,
+				_id: {
+					type: Schema.Types.ObjectId,
 					ref: "Products",
+					required: true,
 				},
 				quantity: {
 					type: Number,
