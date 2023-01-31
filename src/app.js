@@ -6,13 +6,13 @@ import { engine } from "express-handlebars";
 import { Server } from "socket.io";
 import { ProductManager } from "./services/products.services.fs.js";
 import * as MessagesServices from "./services/messages.services.mongo.js";
+import * as CartServices from "./services/carts.services.mongo.js";
 import "./config/db.js";
 
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import viewsRouter from "./routes/views.route.js";
 import messagesRouter from "./routes/messsages.router.js";
-import { Schema } from "mongoose";
 
 dotenv.config();
 const app = express();
@@ -46,6 +46,8 @@ socketServer.on("connection", (socket) => {
 	products = prm.products;
 	socket.emit("open", products);
 	socket.emit("message", messages);
+	let cart = CartServices.createCart();
+	cartId = cart._id;
 
 	socket.on("newProduct", (data) => {
 		prm.addProduct(
@@ -80,5 +82,9 @@ socketServer.on("connection", (socket) => {
 		MessagesServices.createMessage(data);
 		messages.push(data);
 		socketServer.emit("message", messages);
+	});
+
+	socket.on("addProduct", (pid) => {
+		CartServices.addProductToCart(cartId, pid);
 	});
 });
