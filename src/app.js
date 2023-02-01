@@ -47,7 +47,7 @@ socketServer.on("connection", (socket) => {
 	socket.emit("open", products);
 	socket.emit("message", messages);
 	let cart = CartServices.createCart();
-	cartId = cart._id;
+	let cartId = cart._id;
 
 	socket.on("newProduct", (data) => {
 		prm.addProduct(

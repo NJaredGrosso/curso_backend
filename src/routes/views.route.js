@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { ProductManager } from "../services/products.services.fs.js";
-import { getProducts } from "../services/products.services.mongo.js";
 import { createCart } from "../services/carts.services.mongo.js";
+import { ProductsModel } from "../models/products.models.js";
 
 const router = Router();
 const prm = new ProductManager();
@@ -20,12 +20,13 @@ router.get("/realtimeproducts", (req, res) => {
 	});
 });
 
-const productos = await getProducts();
 const cart = await createCart();
 const cartId = cart._id;
+const productos = await ProductsModel.find();
 
 router.get("/products", (req, res) => {
-	res.render("products", { productos, cartId });
+	console.log(typeof productos);
+	res.render("products", { productos: productos });
 });
 
 export default router;
