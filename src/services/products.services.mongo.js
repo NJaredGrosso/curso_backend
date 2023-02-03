@@ -19,7 +19,8 @@ export async function getProducts(limit, page, sort, query) {
 		const products = await ProductsModel.find(valores)
 			.limit(limit)
 			.skip(page !== 1 ? (page - 1) * limit : 0)
-			.sort({ price: sort });
+			.sort({ price: sort })
+			.lean();
 		const pages = Math.ceil(
 			(await ProductsModel.countDocuments(valores)) / limit
 		);

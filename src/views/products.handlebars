@@ -1,15 +1,7 @@
 <div>
-	<h1>LISTA DE PRODUCTOS</h1>
-	<div id="products">
-		{{#each productos}}
-				<div>
-					<img src="{{this.thumbnails}}" alt="Imagen producto" />
-					<h2>{{this.title}} </h2>
-					<h4>{{this.price}} </h4>
-				</div>
-			</a>
-		{{/each}}
-	</div>
+	{{#each productos}}
+		<h2>{{this.title}}</h2>
+		<p>Precio: {{price}}</p>
+		<p>Descripción: {{description}}</p>
+	{{/each}}
 </div>
-
-<script src="/socket.io/socket.io.js"></script>
