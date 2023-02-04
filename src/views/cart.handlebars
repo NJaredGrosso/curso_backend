@@ -1,0 +1,9 @@
+<div>
+	<h1>CARRITO</h1>
+	{{#each products}}
+		<div>
+			<h2>{{this._id.title}} </h2>
+			<h3>${{this._id.price}} x {{quantity}}</h3>
+		</div>
+	{{/each}}
+</div>

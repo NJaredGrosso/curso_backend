@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { ProductManager } from "../services/products.services.fs.js";
-import { ProductsModel } from "../models/products.models.js";
 import { getProducts } from "../services/products.services.mongo.js";
+import { getCart } from "../services/carts.services.mongo.js";
 
 const router = Router();
 const prm = new ProductManager();
@@ -28,6 +28,13 @@ router.get("/products", async (req, res) => {
 	const respuesta = await getProducts(limit, page, sort, query);
 	const productos = respuesta.payload;
 	res.render("products", { productos });
+});
+
+router.get("/carts/:cid", async (req, res) => {
+	const { cid } = req.params;
+	const cart = await getCart(cid);
+	const products = cart.products;
+	res.render("cart", { products });
 });
 
 export default router;

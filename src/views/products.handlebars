@@ -1,7 +1,13 @@
 <div>
 	{{#each productos}}
-		<h2>{{this.title}}</h2>
-		<p>Precio: {{price}}</p>
-		<p>Descripción: {{description}}</p>
+		<div id="{{_id}}">
+			<h2>{{title}}</h2>
+			<p>Precio: {{price}}</p>
+			<p>Descripción: {{description}}</p>
+			<button class="addToCart">Añadir al carrito</button>
+		</div>
 	{{/each}}
 </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/products.socket.js"></script>

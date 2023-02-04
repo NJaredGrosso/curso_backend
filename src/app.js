@@ -41,13 +41,15 @@ const socketServer = new Server(server);
 let products;
 let messages = await MessagesServices.getMessages();
 
-socketServer.on("connection", (socket) => {
+socketServer.on("connection", async (socket) => {
 	console.log("Nueva conexión");
+	let cart;
+	if (!cart) {
+		cart = await CartServices.createCart();
+	}
 	products = prm.products;
 	socket.emit("open", products);
 	socket.emit("message", messages);
-	let cart = CartServices.createCart();
-	let cartId = cart._id;
 
 	socket.on("newProduct", (data) => {
 		prm.addProduct(
@@ -84,7 +86,8 @@ socketServer.on("connection", (socket) => {
 		socketServer.emit("message", messages);
 	});
 
-	socket.on("addProduct", (pid) => {
-		CartServices.addProductToCart(cartId, pid);
+	socket.on("addProduct", async (pid) => {
+		const cid = cart._id;
+		await CartServices.addProductToCart(cid, pid);
 	});
 });

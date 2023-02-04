@@ -2,7 +2,7 @@ import { CartsModel } from "../models/carts.models.js";
 
 export async function getCart(cid) {
 	try {
-		const cart = await CartsModel.findById(cid).populate("products._id");
+		const cart = await CartsModel.findById(cid).populate("products._id").lean();
 		return cart;
 	} catch (error) {
 		throw new Error(error.message);
@@ -22,7 +22,6 @@ export async function addProductToCart(cid, pid) {
 	try {
 		const cart = await CartsModel.findById(cid);
 		const products = cart.products;
-
 		for (let product of products) {
 			if (product._id.toString() === pid) {
 				product.quantity++;
