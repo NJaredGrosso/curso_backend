@@ -2,6 +2,7 @@ import { Router } from "express";
 import { ProductManager } from "../services/products.services.fs.js";
 import { getProducts } from "../services/products.services.mongo.js";
 import { getCart } from "../services/carts.services.mongo.js";
+import { auth } from "../middleware/auth.middleware.js";
 
 const router = Router();
 const prm = new ProductManager();
@@ -9,9 +10,7 @@ const prm = new ProductManager();
 let products = prm.products;
 
 router.get("/", (req, res) => {
-	res.render("home", {
-		products,
-	});
+	res.render("regAndLogin");
 });
 
 router.get("/realtimeproducts", (req, res) => {
@@ -20,7 +19,7 @@ router.get("/realtimeproducts", (req, res) => {
 	});
 });
 
-router.get("/products", async (req, res) => {
+router.get("/products", auth, async (req, res) => {
 	let limit = req.query.limit || 10;
 	let page = Number(req.query.page) || 1;
 	let sort = req.query.sort;
@@ -30,7 +29,7 @@ router.get("/products", async (req, res) => {
 	res.render("products", { productos });
 });
 
-router.get("/carts/:cid", async (req, res) => {
+router.get("/carts/:cid", auth, async (req, res) => {
 	const { cid } = req.params;
 	const cart = await getCart(cid);
 	const products = cart.products;
