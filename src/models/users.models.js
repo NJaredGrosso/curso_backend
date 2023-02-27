@@ -1,4 +1,7 @@
 import { Schema, model } from "mongoose";
+import { createCart } from "../services/carts.services.mongo.js";
+
+const cart = await createCart();
 
 const schema = new Schema(
 	{
@@ -19,6 +22,11 @@ const schema = new Schema(
 			type: Number,
 			required: true,
 			min: 0,
+		},
+		cart: {
+			type: String,
+			required: true,
+			default: cart._id,
 		},
 		password: {
 			type: String,

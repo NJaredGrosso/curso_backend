@@ -3,6 +3,6 @@ export function auth(req, res, next) {
 		req.session.touch();
 		next();
 	} else {
-		res.status(400).send("usuario no registrado");
+		res.status(400).send("Debes logearte para ver esto");
 	}
 }

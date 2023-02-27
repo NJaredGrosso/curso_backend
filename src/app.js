@@ -23,6 +23,9 @@ import viewsRouter from "./routes/views.route.js";
 import messagesRouter from "./routes/messsages.router.js";
 import UserRouter from "./routes/user.route.js";
 import AuthRouter from "./routes/auth.router.js";
+import passport from "passport";
+import PassportLocalRouter from "./routes/passportLocal.router.js";
+import GithubRouter from "./routes/github.router.js";
 
 dotenv.config();
 const app = express();
@@ -53,6 +56,8 @@ app.use(
 		cookie: {},
 	})
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Routes
 app.use("/", viewsRouter);
@@ -61,6 +66,8 @@ app.use("/api/carts", cartsRouter);
 app.use("/api/messages", messagesRouter);
 app.use("/api/users", UserRouter);
 app.use("/api/auth", AuthRouter);
+app.use("/api/passportLocal", PassportLocalRouter);
+app.use("/api/github", GithubRouter);
 
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () =>

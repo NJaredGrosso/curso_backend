@@ -1,4 +1,5 @@
 import * as UserServices from "./user.services.js";
+import bcrypt from "bcrypt";
 
 export async function login(email, password) {
 	try {
@@ -6,7 +7,8 @@ export async function login(email, password) {
 		if (!user) {
 			return false;
 		} else {
-			if (password === user.password) {
+			const isValid = bcrypt.compareSync(password, user.password);
+			if (isValid) {
 				return true;
 			} else {
 				return false;
