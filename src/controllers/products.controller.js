@@ -1,4 +1,5 @@
-import * as ProductsServices from "../services/products.services.mongo.js";
+//import * as ProductsServices from "../services/productsDTO/products.fs.js";
+import * as ProductsServices from "../services/productsDTO/products.mongo.js";
 import { STATUS } from "../constants/constants.js";
 
 export async function getProducts(req, res) {

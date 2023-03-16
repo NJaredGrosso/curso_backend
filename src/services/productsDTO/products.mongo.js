@@ -1,4 +1,4 @@
-import { ProductsModel } from "../models/products.models.js";
+import { ProductsModel } from "../../models/products.models.js";
 
 export async function getProducts(limit, page, sort, query) {
 	try {
@@ -43,6 +43,7 @@ export async function getProducts(limit, page, sort, query) {
 		throw new Error(error.message);
 	}
 }
+
 export async function getProduct(pid) {
 	try {
 		const product = await ProductsModel.findById(pid);
@@ -51,6 +52,7 @@ export async function getProduct(pid) {
 		throw new Error(error.message);
 	}
 }
+
 export async function createProduct(data) {
 	try {
 		const product = await ProductsModel.create(data);
@@ -59,6 +61,7 @@ export async function createProduct(data) {
 		throw new Error(error.message);
 	}
 }
+
 export async function updateProduct(pid, data) {
 	try {
 		const updatedProduct = await ProductsModel.findByIdAndUpdate(pid, data, {
@@ -69,6 +72,7 @@ export async function updateProduct(pid, data) {
 		throw new Error(error.message);
 	}
 }
+
 export async function deleteProduct(pid) {
 	try {
 		await ProductsModel.delete({ _id: pid });

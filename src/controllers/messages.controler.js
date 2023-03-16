@@ -1,4 +1,4 @@
-import * as MessagesServices from "../services/messages.services.mongo.js";
+import * as MessagesServices from "../services/messagesDTO/messages.mongo.js";
 import { STATUS } from "../constants/constants";
 
 export async function getMessages(req, res) {

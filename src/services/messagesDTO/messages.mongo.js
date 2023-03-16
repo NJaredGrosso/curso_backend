@@ -1,4 +1,4 @@
-import { MessagesModel } from "../models/messages.models.js";
+import { MessagesModel } from "../../models/messages.models.js";
 
 export async function getMessages() {
 	try {

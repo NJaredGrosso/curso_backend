@@ -1,4 +1,4 @@
-import { UserModel } from "../models/users.models.js";
+import { UserModel } from "../../models/users.models.js";
 import bcrypt from "bcrypt";
 
 export async function createUser(data) {

@@ -1,4 +1,4 @@
-import * as UserServices from "../services/user.services.js";
+import * as UserServices from "../services/userDTO/user.mongo.js";
 
 export async function createUser(req, res) {
 	try {
