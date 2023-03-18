@@ -1,5 +1,6 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
+import productDTO from "./DTO.js";
 
 export class ProductManager {
 	constructor() {
@@ -42,10 +43,36 @@ export class ProductManager {
 		}
 	}
 
-	async getProducts() {
+	async getProducts(limit, page, sort, query) {
 		try {
 			let productos = JSON.parse(fs.readFileSync(this.path));
-			return productos;
+			if (sort) {
+				if (sort === "asc") productos.sort((a, b) => a.price - b.price);
+				if (sort === "desc") productos.sort((a, b) => b.price - a.price);
+			}
+			if (query) {
+				productos = productos.filter((producto) => (producto.category = query));
+			}
+			for (let skip = page * limit; skip < skip + limit; skip++) {
+				let products;
+				products.push(productos[skip]);
+			}
+			const pages = productos / limit;
+			const prevPage = page - 1;
+			const nextPage = page + 1;
+			const hasPrevPage = prevPage <= 0 ? false : true;
+			const hasNextPage = nextPage > pages ? false : true;
+
+			const respuesta = {
+				status: "succes",
+				payload: products,
+				totalPages: pages,
+				prevPage: prevPage,
+				nextPage: nextPage,
+				hasPrevPage: hasPrevPage,
+				hasNextPage: hasNextPage,
+			};
+			return respuesta;
 		} catch (error) {
 			throw new Error(error.message);
 		}
@@ -54,7 +81,8 @@ export class ProductManager {
 	async getProduct(pid) {
 		let productos = await this.getProducts();
 		let product = productos.find((producto) => producto.id === pid);
-		return product;
+		const response = new productDTO(product);
+		return response;
 	}
 
 	updateProduct(pid, key, newValue) {

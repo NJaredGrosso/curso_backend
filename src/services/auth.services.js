@@ -1,4 +1,4 @@
-import * as UserServices from "./user.services.js";
+import * as UserServices from "./userDAO/user.mongo.js";
 import bcrypt from "bcrypt";
 
 export async function login(email, password) {

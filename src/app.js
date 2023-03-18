@@ -4,17 +4,16 @@ import bodyParser from "body-parser";
 import __dirname from "./utils.js";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
-import "./config/db.js";
 import cookie from "cookie-parser";
 import session from "express-session";
 import mongoStore from "connect-mongo";
 
 //Imports Services
-import { ProductManager } from "./services/products.services.fs.js";
-import * as MessagesServices from "./services/messages.services.mongo.js";
-import * as CartServices from "./services/carts.services.mongo.js";
+import { ProductManager } from "./services/productsDAO/products.fs.js";
+import * as MessagesServices from "./services/messagesDAO/messages.mongo.js";
+import * as CartServices from "./services/cartsDAO/carts.mongo.js";
 import * as AuthServices from "./services/auth.services.js";
-import * as UserServices from "./services/user.services.js";
+import * as UserServices from "./services/userDAO/user.mongo.js";
 
 //Imports Routers
 import productsRouter from "./routes/products.router.js";

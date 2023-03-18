@@ -2,7 +2,7 @@ import passport from "passport";
 import passportLocal from "passport-local";
 import { UserModel } from "../models/users.models.js";
 import passportGithub from "passport-github2";
-import * as UserService from "../services/user.services.js";
+import * as UserService from "../services/userDAO/user.mongo.js";
 import * as AuthServices from "../services/auth.services.js";
 import dotenv from "dotenv";
 dotenv.config();

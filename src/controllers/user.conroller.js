@@ -1,9 +1,10 @@
-import * as UserServices from "../services/userDTO/user.mongo.js";
+//import * as UserServices from "../services/userDAO/user.mongo.js";
+import factory from "../services/factory.js";
 
 export async function createUser(req, res) {
 	try {
 		const data = req.body;
-		const response = await UserServices.createUser(data);
+		const response = await factory.user.createUser(data);
 		if (response) {
 			res.status(201).json({ user: response });
 		} else {
@@ -17,7 +18,7 @@ export async function createUser(req, res) {
 export async function getUser(req, res) {
 	try {
 		const { email } = req.params;
-		const user = await UserServices.getUser(email);
+		const user = await factory.user.getUser(email);
 		if (user) {
 			delete user.password;
 			res.json({ user });

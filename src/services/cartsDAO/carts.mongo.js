@@ -1,4 +1,5 @@
-import { CartsModel } from "../models/carts.models.js";
+import { CartsModel } from "../../models/carts.models.js";
+import cartsDTO from "./DTO.js";
 
 export async function getCart(cid) {
 	try {
@@ -12,7 +13,8 @@ export async function getCart(cid) {
 export async function createCart(data) {
 	try {
 		const cart = await CartsModel.create(data);
-		return cart;
+		const response = new cartsDTO(cart);
+		return response;
 	} catch (error) {
 		throw new Error(error.message);
 	}

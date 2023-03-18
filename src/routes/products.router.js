@@ -11,7 +11,7 @@ route.put("/:pid", ProductsController.updateProduct);
 route.delete("/:pid", ProductsController.deleteProduct);
 
 //Usando File System//////////////////////////////////////////////////////////////////////////////////////////////////////////
-import { ProductManager } from "../services/products.services.fs.js";
+import { ProductManager } from "../services/productsDAO/products.fs.js";
 const prm = new ProductManager();
 
 route.get("/fs", (req, res) => {

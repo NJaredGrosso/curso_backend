@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { ProductManager } from "../services/products.services.fs.js";
-import { getProducts } from "../services/products.services.mongo.js";
-import { getCart } from "../services/carts.services.mongo.js";
+import { ProductManager } from "../services/productsDAO/products.fs.js";
+import { getProducts } from "../services/productsDAO/products.mongo.js";
+import { getCart } from "../services/cartsDAO/carts.mongo.js";
 import { auth } from "../middleware/auth.middleware.js";
 
 const router = Router();

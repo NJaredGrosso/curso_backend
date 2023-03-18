@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { createCart } from "../services/carts.services.mongo.js";
+import { createCart } from "../services/cartsDAO/carts.mongo.js";
 
 const cart = await createCart();
 
@@ -44,4 +44,4 @@ const schema = new Schema(
 	}
 );
 
-export const UserModel = model("Users", schema);
+export const UserModel = model("User", schema);
