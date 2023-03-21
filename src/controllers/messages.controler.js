@@ -1,10 +1,9 @@
-//import * as MessagesServices from "../services/messagesDAO/messages.mongo.js";
-import factory from "../services/factory.js";
+import * as MessagesServices from "../services/messagesDAO/messages.mongo.js";
 import { STATUS } from "../constants/constants";
 
 export async function getMessages(req, res) {
 	try {
-		const response = await factory.message.getMessages();
+		const response = await MessagesServices.getMessages();
 		return response;
 	} catch (error) {
 		res.status(400).json({
@@ -16,7 +15,7 @@ export async function getMessages(req, res) {
 
 export async function createMessage(req, res) {
 	try {
-		const response = await factory.message.createMessage(data);
+		const response = await MessagesServices.createMessage(data);
 		return response;
 	} catch (error) {
 		res.status(400).json({

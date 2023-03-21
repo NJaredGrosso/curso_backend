@@ -40,6 +40,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookie());
+await import("./config/db.js");
 app.use(
 	session({
 		store: new mongoStore({

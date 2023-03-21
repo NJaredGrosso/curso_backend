@@ -48,8 +48,8 @@ export async function getProducts(limit, page, sort, query) {
 export async function getProduct(pid) {
 	try {
 		const product = await ProductsModel.findById(pid);
-		const response = new productDTO(product);
-		return response;
+		//const response = new productDTO(product);
+		return product;
 	} catch (error) {
 		throw new Error(error.message);
 	}
