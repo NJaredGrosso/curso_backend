@@ -1,4 +1,5 @@
 import config from "../config/config.js";
+import { ProductRepository } from "./productsDAO/repository.js";
 import { PERSISTENCIA } from "../constants/constants.js";
 
 let factory = {};
@@ -16,7 +17,7 @@ switch (config.persistencia) {
 		factory = {
 			user: userMongo,
 			carts: cartsMongo,
-			products: productsMongo,
+			products: new ProductRepository(productsMongo),
 			message: messageMongo,
 		};
 		break;
@@ -34,7 +35,7 @@ switch (config.persistencia) {
 		factory = {
 			user: userFile,
 			carts: cartsFile,
-			products: productsFile,
+			products: new ProductRepository(productsFile),
 			message: messageFile,
 		};
 		break;

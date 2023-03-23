@@ -1,6 +1,5 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
-import productDTO from "./DTO.js";
 
 export class ProductManager {
 	constructor() {
@@ -81,8 +80,7 @@ export class ProductManager {
 	async getProduct(pid) {
 		let productos = await this.getProducts();
 		let product = productos.find((producto) => producto.id === pid);
-		const response = new productDTO(product);
-		return response;
+		return product;
 	}
 
 	updateProduct(pid, key, newValue) {

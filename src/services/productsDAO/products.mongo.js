@@ -1,5 +1,4 @@
 import { ProductsModel } from "../../models/products.models.js";
-import productDTO from "./DTO.js";
 
 class productsService {
 	async getProducts(limit, page, sort, query) {
@@ -49,8 +48,7 @@ class productsService {
 	async getProduct(pid) {
 		try {
 			const product = await ProductsModel.findById(pid);
-			const response = new productDTO(product);
-			return response;
+			return product;
 		} catch (error) {
 			throw new Error(error.message);
 		}

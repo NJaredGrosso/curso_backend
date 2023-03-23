@@ -1,6 +1,5 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
-import cartsDTO from "./DTO.js";
 
 import { ProductManager } from "../productsDAO/products.fs.js";
 const prm = new ProductManager();
@@ -18,8 +17,7 @@ export class CartsManager {
 		try {
 			const carts = JSON.parse(fs.readFileSync(this.path));
 			const cart = carts.find((cart) => cart.id === cid);
-			const response = new cartsDTO(cart);
-			return response;
+			return cart;
 		} catch (error) {
 			throw new Error(error.message);
 		}
