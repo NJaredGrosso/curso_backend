@@ -1,9 +1,9 @@
-import * as UserServices from "./userDAO/user.mongo.js";
+import factory from "./factory.js";
 import bcrypt from "bcrypt";
 
 export async function login(email, password) {
 	try {
-		const user = await UserServices.getUser(email);
+		const user = await factory.user.getUser(email);
 		if (!user) {
 			return false;
 		} else {

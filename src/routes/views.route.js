@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { ProductManager } from "../services/productsDAO/products.fs.js";
-import { getProducts } from "../services/productsDAO/products.mongo.js";
-import { getCart } from "../services/cartsDAO/carts.mongo.js";
+import productsService from "../services/productsDAO/products.mongo.js";
+import cartServices from "../services/cartsDAO/carts.mongo.js";
 import { auth } from "../middleware/auth.middleware.js";
 
 const router = Router();
@@ -24,14 +24,14 @@ router.get("/products", auth, async (req, res) => {
 	let page = Number(req.query.page) || 1;
 	let sort = req.query.sort;
 	let query = req.query.query;
-	const respuesta = await getProducts(limit, page, sort, query);
+	const respuesta = await productsService.getProducts(limit, page, sort, query);
 	const productos = respuesta.payload;
 	res.render("products", { productos });
 });
 
 router.get("/carts/:cid", auth, async (req, res) => {
 	const { cid } = req.params;
-	const cart = await getCart(cid);
+	const cart = await cartServices.getCart(cid);
 	const products = cart.products;
 	res.render("cart", { products });
 });

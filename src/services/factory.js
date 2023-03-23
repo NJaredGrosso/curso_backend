@@ -1,11 +1,10 @@
 import config from "../config/config.js";
 import { PERSISTENCIA } from "../constants/constants.js";
 
-let factory;
+let factory = {};
 switch (config.persistencia) {
 	case PERSISTENCIA.MONGO:
 		await import("../config/db.js");
-		console.log("Persistencia en Mongo");
 		const { default: cartsMongo } = await import("./cartsDAO/carts.mongo.js");
 		const { default: productsMongo } = await import(
 			"./productsDAO/products.mongo.js"

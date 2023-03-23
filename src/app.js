@@ -10,10 +10,7 @@ import mongoStore from "connect-mongo";
 
 //Imports Services
 import { ProductManager } from "./services/productsDAO/products.fs.js";
-import * as MessagesServices from "./services/messagesDAO/messages.mongo.js";
-import * as CartServices from "./services/cartsDAO/carts.mongo.js";
-import * as AuthServices from "./services/auth.services.js";
-import * as UserServices from "./services/userDAO/user.mongo.js";
+import factory from "./services/factory.js";
 
 //Imports Routers
 import productsRouter from "./routes/products.router.js";
@@ -40,7 +37,6 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookie());
-await import("./config/db.js");
 app.use(
 	session({
 		store: new mongoStore({
@@ -78,7 +74,7 @@ server.on("error", (err) => console.log(err));
 const socketServer = new Server(server);
 
 let products;
-let messages = await MessagesServices.getMessages();
+let messages = await factory.message.getMessages();
 
 socketServer.use((socket, next) => {
 	const { handshake } = socket;
@@ -92,7 +88,7 @@ socketServer.on("connection", async (socket) => {
 	console.log("Nueva conexión");
 	let cart;
 	if (!cart) {
-		cart = await CartServices.createCart();
+		cart = await factory.carts.createCart();
 	}
 	products = prm.products;
 	socket.emit("open", products);
@@ -128,14 +124,14 @@ socketServer.on("connection", async (socket) => {
 	});
 
 	socket.on("message", (data) => {
-		MessagesServices.createMessage(data);
+		factory.message.createMessage(data);
 		messages.push(data);
 		socketServer.emit("message", messages);
 	});
 
 	socket.on("addProduct", async (pid) => {
 		const cid = cart._id;
-		await CartServices.addProductToCart(cid, pid);
+		await factory.carts.addProductToCart(cid, pid);
 	});
 
 	socket.on("login", async (data) => {
@@ -151,7 +147,7 @@ socketServer.on("connection", async (socket) => {
 	});
 
 	socket.on("register", async (data) => {
-		const user = await UserServices.createUser(data);
+		const user = await factory.user.createUser(data);
 		if (user) {
 			socket.emit("RegCorrecto");
 		} else {

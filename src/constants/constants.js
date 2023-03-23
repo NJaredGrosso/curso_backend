@@ -4,6 +4,6 @@ export const STATUS = {
 };
 
 export const PERSISTENCIA = {
-	MONGO: "mongo",
-	FILE: "file",
+	MONGO: "MONGO",
+	FILE: "FILE",
 };

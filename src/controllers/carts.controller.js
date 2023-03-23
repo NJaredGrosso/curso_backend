@@ -1,11 +1,10 @@
-//import * as CartsServices from "../services/cartsDAO/carts.fs.js"
-import * as CartsServices from "../services/cartsDAO/carts.mongo.js";
+import factory from "../services/factory.js";
 import { STATUS } from "../constants/constants.js";
 
 export async function getCart(req, res) {
 	try {
 		const { cid } = req.params;
-		const response = await CartsServices.getCart(cid);
+		const response = await factory.carts.getCart(cid);
 		res.json({
 			user: response,
 			status: STATUS.SUCCES,
@@ -22,7 +21,7 @@ export async function createCart(req, res) {
 		const body = {
 			products: [],
 		};
-		const response = await CartsServices.createCart(body);
+		const response = await factory.carts.createCart(body);
 		res.status(201).json({
 			user: response,
 			status: STATUS.SUCCES,
@@ -37,7 +36,7 @@ export async function createCart(req, res) {
 export async function addProductToCart(req, res) {
 	try {
 		const { cid, pid } = req.params;
-		const response = await CartsServices.addProductToCart(cid, pid);
+		const response = await factory.carts.addProductToCart(cid, pid);
 		res.status(200).json({
 			user: response,
 			status: STATUS.SUCCES,
@@ -54,7 +53,7 @@ export async function addProductsToCart(req, res) {
 	try {
 		const { cid } = req.params;
 		const { body } = req;
-		const response = await CartsServices.addProductsToCart(cid, body);
+		const response = await factory.carts.addProductsToCart(cid, body);
 		res.status(200).json({
 			user: response,
 			status: STATUS.SUCCES,
@@ -72,7 +71,7 @@ export async function updateQuantityOfProduct(req, res) {
 		const { cid, pid } = req.params;
 		const { body } = req;
 		const quantity = body.quantity;
-		const response = await CartsServices.updateQuantityOfProduct(
+		const response = await factory.carts.updateQuantityOfProduct(
 			cid,
 			pid,
 			quantity
@@ -92,7 +91,7 @@ export async function updateQuantityOfProduct(req, res) {
 export async function deleteProductToCart(req, res) {
 	try {
 		const { cid, pid } = req.params;
-		const response = await CartsServices.deleteProductToCart(cid, pid);
+		const response = await factory.carts.deleteProductToCart(cid, pid);
 		res.status(200).json({
 			user: response,
 			status: STATUS.SUCCES,
@@ -108,7 +107,7 @@ export async function deleteProductToCart(req, res) {
 export async function deleteAllProductsToCart(req, res) {
 	try {
 		const { cid } = req.params;
-		const response = await CartsServices.deleteAllProductsToCart(cid);
+		const response = await factory.carts.deleteAllProductsToCart(cid);
 		res.status(200).json({
 			user: response,
 			status: STATUS.SUCCES,
