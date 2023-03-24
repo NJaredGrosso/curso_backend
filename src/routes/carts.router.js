@@ -1,13 +1,20 @@
 import { Router } from "express";
 const router = Router();
 import * as CartsController from "../controllers/carts.controller.js";
+import * as TicketController from "../controllers/ticket.controller.js";
+import { userAuth } from "../middleware/auth.middleware.js";
 
 //Usando MongoDB///////////////////////////////////////////////////////////////////////////////////////
 router.get("/:cid", CartsController.getCart);
+router.get("/:cid/purchease", TicketController.createTicket);
 router.post("/", CartsController.createCart);
-router.post("/:cid/products/:pid", CartsController.addProductToCart);
-router.put("/:cid", CartsController.addProductsToCart);
-router.put("/:cid/products/:pid", CartsController.updateQuantityOfProduct);
+router.post("/:cid/products/:pid", userAuth, CartsController.addProductToCart);
+router.put("/:cid", userAuth, CartsController.addProductsToCart);
+router.put(
+	"/:cid/products/:pid",
+	userAuth,
+	CartsController.updateQuantityOfProduct
+);
 router.delete("/:cid/products/:pid", CartsController.deleteProductToCart);
 router.delete("/:cid", CartsController.deleteAllProductsToCart);
 

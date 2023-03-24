@@ -2,7 +2,7 @@ import { Router } from "express";
 import { ProductManager } from "../services/productsDAO/products.fs.js";
 import productsService from "../services/productsDAO/products.mongo.js";
 import cartServices from "../services/cartsDAO/carts.mongo.js";
-import { auth } from "../middleware/auth.middleware.js";
+import { userAuth } from "../middleware/auth.middleware.js";
 
 const router = Router();
 const prm = new ProductManager();
@@ -19,7 +19,7 @@ router.get("/realtimeproducts", (req, res) => {
 	});
 });
 
-router.get("/products", auth, async (req, res) => {
+router.get("/products", userAuth, async (req, res) => {
 	let limit = req.query.limit || 10;
 	let page = Number(req.query.page) || 1;
 	let sort = req.query.sort;
@@ -29,7 +29,7 @@ router.get("/products", auth, async (req, res) => {
 	res.render("products", { productos });
 });
 
-router.get("/carts/:cid", auth, async (req, res) => {
+router.get("/carts/:cid", userAuth, async (req, res) => {
 	const { cid } = req.params;
 	const cart = await cartServices.getCart(cid);
 	const products = cart.products;

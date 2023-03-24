@@ -1,5 +1,6 @@
 import factory from "./factory.js";
 import bcrypt from "bcrypt";
+import { UserModel } from "../models/users.models.js";
 
 export async function login(email, password) {
 	try {
@@ -9,7 +10,7 @@ export async function login(email, password) {
 		} else {
 			const isValid = bcrypt.compareSync(password, user.password);
 			if (isValid) {
-				return true;
+				return user;
 			} else {
 				return false;
 			}

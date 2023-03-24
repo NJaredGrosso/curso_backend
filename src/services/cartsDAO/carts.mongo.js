@@ -21,6 +21,14 @@ class cartsService {
 		}
 	}
 
+	async deleteCart(cid) {
+		try {
+			await CartsModel.deleteOne({ _id: cid });
+		} catch (error) {
+			throw new Error(error.message);
+		}
+	}
+
 	async addProductToCart(cid, pid) {
 		try {
 			const cart = await CartsModel.findById(cid);

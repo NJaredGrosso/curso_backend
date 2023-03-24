@@ -14,11 +14,13 @@ switch (config.persistencia) {
 		const { default: messageMongo } = await import(
 			"./messagesDAO/messages.mongo.js"
 		);
+		const { default: ticketMongo } = await import("./ticket.services.js");
 		factory = {
 			user: userMongo,
 			carts: cartsMongo,
 			products: new ProductRepository(productsMongo),
 			message: messageMongo,
+			tickets: ticketMongo,
 		};
 		break;
 

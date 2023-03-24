@@ -20,6 +20,10 @@ const schema = new Schema(
 			required: true,
 			min: 0,
 		},
+		cart: {
+			type: String,
+			required: true,
+		},
 		password: {
 			type: String,
 			required: true,

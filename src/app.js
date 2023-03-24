@@ -8,27 +8,14 @@ import cookie from "cookie-parser";
 import session from "express-session";
 import mongoStore from "connect-mongo";
 
-//Imports Services
-import { ProductManager } from "./services/productsDAO/products.fs.js";
-import factory from "./services/factory.js";
-
-//Imports Routers
-import productsRouter from "./routes/products.router.js";
-import cartsRouter from "./routes/carts.router.js";
-import viewsRouter from "./routes/views.route.js";
-import messagesRouter from "./routes/messsages.router.js";
-import UserRouter from "./routes/user.route.js";
-import AuthRouter from "./routes/auth.router.js";
-import passport from "passport";
-import PassportLocalRouter from "./routes/passportLocal.router.js";
-import GithubRouter from "./routes/github.router.js";
-
 dotenv.config();
 const app = express();
+
+//Imports Services
+import { ProductManager } from "./services/productsDAO/products.fs.js";
 const prm = new ProductManager();
 
 app.engine("handlebars", engine());
-
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
@@ -52,17 +39,31 @@ app.use(
 		cookie: {},
 	})
 );
+
+import passport from "passport";
 app.use(passport.initialize());
 app.use(passport.session());
 
+import factory from "./services/factory.js";
+
 //Routes
+import viewsRouter from "./routes/views.route.js";
 app.use("/", viewsRouter);
+import sessionRouter from "./routes/sessions.router.js";
+app.use("/current", sessionRouter);
+import productsRouter from "./routes/products.router.js";
 app.use("/api/products", productsRouter);
+import cartsRouter from "./routes/carts.router.js";
 app.use("/api/carts", cartsRouter);
+import messagesRouter from "./routes/messsages.router.js";
 app.use("/api/messages", messagesRouter);
+import UserRouter from "./routes/user.route.js";
 app.use("/api/users", UserRouter);
+import AuthRouter from "./routes/auth.router.js";
 app.use("/api/auth", AuthRouter);
+import PassportLocalRouter from "./routes/passportLocal.router.js";
 app.use("/api/passportLocal", PassportLocalRouter);
+import GithubRouter from "./routes/github.router.js";
 app.use("/api/github", GithubRouter);
 
 const PORT = process.env.PORT || 8080;

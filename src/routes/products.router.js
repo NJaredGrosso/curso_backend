@@ -1,14 +1,15 @@
 import express from "express";
 import * as ProductsController from "../controllers/products.controller.js";
+import { adminAuth } from "../middleware/auth.middleware.js";
 
 const route = express.Router();
 
 //Usando MongoDB//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 route.get("/", ProductsController.getProducts);
 route.get("/:pid", ProductsController.getProduct);
-route.post("/", ProductsController.createProduct);
-route.put("/:pid", ProductsController.updateProduct);
-route.delete("/:pid", ProductsController.deleteProduct);
+route.post("/", adminAuth, ProductsController.createProduct);
+route.put("/:pid", adminAuth, ProductsController.updateProduct);
+route.delete("/:pid", adminAuth, ProductsController.deleteProduct);
 
 //Usando File System//////////////////////////////////////////////////////////////////////////////////////////////////////////
 import { ProductManager } from "../services/productsDAO/products.fs.js";
