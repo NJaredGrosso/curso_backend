@@ -32,7 +32,7 @@ export async function createTicket(req, res) {
 		});
 
 		res.status(200).json({
-			user: response,
+			ticket: response,
 			cantPurchase: cantPurchease,
 			status: STATUS.SUCCES,
 		});

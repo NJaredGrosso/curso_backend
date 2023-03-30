@@ -9,7 +9,7 @@ class TicketServices {
 			let amount = 0;
 			cart.products.forEach((product) => {
 				let price = product.quantity * product._id.price;
-				amount += price;
+				amount = amount + price;
 			});
 			const data = {
 				code: uuidv4(),

@@ -7,6 +7,9 @@ import { Server } from "socket.io";
 import cookie from "cookie-parser";
 import session from "express-session";
 import mongoStore from "connect-mongo";
+import compression from "express-compression";
+import errorHandler from "./middleware/errorHandler.js";
+import CustomError from "./utils/customErrors.js";
 
 dotenv.config();
 const app = express();
@@ -14,6 +17,7 @@ const app = express();
 //Imports Services
 import { ProductManager } from "./services/productsDAO/products.fs.js";
 const prm = new ProductManager();
+import factory from "./services/factory.js";
 
 app.engine("handlebars", engine());
 app.set("views", __dirname + "/views");
@@ -24,6 +28,11 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookie());
+app.use(
+	compression({
+		brotli: { enabled: true, zlib: {} },
+	})
+);
 app.use(
 	session({
 		store: new mongoStore({
@@ -44,33 +53,44 @@ import passport from "passport";
 app.use(passport.initialize());
 app.use(passport.session());
 
-import factory from "./services/factory.js";
-
-//Routes
-import viewsRouter from "./routes/views.route.js";
-app.use("/", viewsRouter);
-import sessionRouter from "./routes/sessions.router.js";
-app.use("/current", sessionRouter);
-import productsRouter from "./routes/products.router.js";
-app.use("/api/products", productsRouter);
-import cartsRouter from "./routes/carts.router.js";
-app.use("/api/carts", cartsRouter);
-import messagesRouter from "./routes/messsages.router.js";
-app.use("/api/messages", messagesRouter);
-import UserRouter from "./routes/user.route.js";
-app.use("/api/users", UserRouter);
-import AuthRouter from "./routes/auth.router.js";
-app.use("/api/auth", AuthRouter);
-import PassportLocalRouter from "./routes/passportLocal.router.js";
-app.use("/api/passportLocal", PassportLocalRouter);
-import GithubRouter from "./routes/github.router.js";
-app.use("/api/github", GithubRouter);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () =>
 	console.log(`🚀 Server started on port http://localhost:${PORT}`)
 );
 server.on("error", (err) => console.log(err));
+
+//Routes
+import viewsRouter from "./routes/views.route.js";
+app.use("/", viewsRouter);
+
+import sessionRouter from "./routes/sessions.router.js";
+app.use("/current", sessionRouter);
+
+import productsRouter from "./routes/products.router.js";
+app.use("/api/products", productsRouter);
+
+import cartsRouter from "./routes/carts.router.js";
+app.use("/api/carts", cartsRouter);
+
+import messagesRouter from "./routes/messsages.router.js";
+app.use("/api/messages", messagesRouter);
+
+import UserRouter from "./routes/user.route.js";
+app.use("/api/users", UserRouter);
+
+import AuthRouter from "./routes/auth.router.js";
+app.use("/api/auth", AuthRouter);
+
+import PassportLocalRouter from "./routes/passportLocal.router.js";
+app.use("/api/passportLocal", PassportLocalRouter);
+
+import GithubRouter from "./routes/github.router.js";
+app.use("/api/github", GithubRouter);
+
+import MockingRouter from "./routes/mocking.router.js";
+app.use("/mockingproducts", MockingRouter);
 
 const socketServer = new Server(server);
 
@@ -87,10 +107,6 @@ socketServer.use((socket, next) => {
 
 socketServer.on("connection", async (socket) => {
 	console.log("Nueva conexión");
-	let cart;
-	if (!cart) {
-		cart = await factory.carts.createCart();
-	}
 	products = prm.products;
 	socket.emit("open", products);
 	socket.emit("message", messages);
@@ -128,11 +144,6 @@ socketServer.on("connection", async (socket) => {
 		factory.message.createMessage(data);
 		messages.push(data);
 		socketServer.emit("message", messages);
-	});
-
-	socket.on("addProduct", async (pid) => {
-		const cid = cart._id;
-		await factory.carts.addProductToCart(cid, pid);
 	});
 
 	socket.on("login", async (data) => {
