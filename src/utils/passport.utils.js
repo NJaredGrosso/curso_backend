@@ -4,15 +4,16 @@ import { UserModel } from "../models/users.models.js";
 import passportGithub from "passport-github2";
 import * as UserService from "../services/userDAO/user.mongo.js";
 import * as AuthServices from "../services/auth.services.js";
+import logger from "./logger.js";
 import dotenv from "dotenv";
 dotenv.config();
 
 passport.serializeUser(function (user, done) {
-	console.log("Serializing");
+	logger.debug("Serializing");
 	done(null, user._id);
 });
 passport.deserializeUser(function (_id, done) {
-	console.log("Deserializing");
+	logger.debug("Deserializing");
 	UserModel.findById(_id, function (err, user) {
 		done(err, user);
 	});

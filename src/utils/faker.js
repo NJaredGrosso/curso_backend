@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker";
-fa;
 
 function generateProduct() {
 	return {

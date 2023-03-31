@@ -10,6 +10,7 @@ import mongoStore from "connect-mongo";
 import compression from "express-compression";
 import errorHandler from "./middleware/errorHandler.js";
 import CustomError from "./utils/customErrors.js";
+import loggerMiddleware from "./middleware/logger.middleware.js";
 
 dotenv.config();
 const app = express();
@@ -55,6 +56,8 @@ app.use(passport.session());
 
 app.use(errorHandler);
 
+app.use(loggerMiddleware);
+
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () =>
 	console.log(`🚀 Server started on port http://localhost:${PORT}`)
@@ -91,6 +94,16 @@ app.use("/api/github", GithubRouter);
 
 import MockingRouter from "./routes/mocking.router.js";
 app.use("/mockingproducts", MockingRouter);
+
+import logger from "./utils/logger.js";
+app.get("/loggerTest", (req, res) => {
+	logger.debug("Logger debug test");
+	logger.http("Logger http test");
+	logger.info("Logger info test");
+	logger.warning("Logger warnign test");
+	logger.error("Logger error test");
+	logger.fatal("Logger fatal test");
+});
 
 const socketServer = new Server(server);
 
