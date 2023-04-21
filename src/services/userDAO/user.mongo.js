@@ -25,5 +25,19 @@ class userService {
 			throw new Error(error.message);
 		}
 	}
+
+	async updateUser(email, data) {
+		try {
+			if (data.password) {
+				data.password = bcrypt.hashSync(data.password, bcrypt.genSaltSync(10));
+			}
+			const updatedUser = await UserModel.findOneAndUpdate({ email }, data, {
+				new: true,
+			});
+			return updatedUser;
+		} catch (error) {
+			throw new Error(error.message);
+		}
+	}
 }
 export default new userService();

@@ -1,6 +1,5 @@
 import factory from "./factory.js";
 import bcrypt from "bcrypt";
-import { UserModel } from "../models/users.models.js";
 
 export async function login(email, password) {
 	try {

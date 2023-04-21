@@ -7,6 +7,8 @@ const regEmail = document.getElementById("regEmail");
 const regEdad = document.getElementById("regEdad");
 const regPassword = document.getElementById("regPassword");
 const registrar = document.getElementById("registrar");
+const recMail = document.getElementById("recMail");
+const fPass = document.getElementById("fPass");
 
 registrar.addEventListener("click", (e) => {
 	e.preventDefault();
@@ -60,4 +62,16 @@ socket.on("datosIncorrectos", () => {
 socket.on("redirect", () => {
 	req.session.logged = true;
 	window.location.assign("/products");
+});
+
+//Recuperar Contraseña
+
+fPass.addEventListener("click", (e) => {
+	e.preventDefault();
+	const mail = recMail.value;
+	socket.emit("recPass", mail);
+	Swal.fire({
+		title: "Listo!",
+		text: "Mail enviado, revisa tu casilla de correos",
+	});
 });

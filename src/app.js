@@ -11,6 +11,9 @@ import compression from "express-compression";
 import errorHandler from "./middleware/errorHandler.js";
 import CustomError from "./utils/customErrors.js";
 import loggerMiddleware from "./middleware/logger.middleware.js";
+import { createTransport } from "nodemailer";
+import pkg from "jsonwebtoken";
+const Jwt = pkg;
 
 dotenv.config();
 const app = express();
@@ -119,7 +122,7 @@ socketServer.use((socket, next) => {
 });
 
 socketServer.on("connection", async (socket) => {
-	console.log("Nueva conexión");
+	logger.debug("Nueva conexión");
 	products = prm.products;
 	socket.emit("open", products);
 	socket.emit("message", messages);
@@ -146,7 +149,7 @@ socketServer.on("connection", async (socket) => {
 	});
 
 	socket.on("disconnect", () => {
-		console.log("Cliente desconectado");
+		logger.debug("Cliente desconectado");
 	});
 
 	socket.on("newUser", (nombre) => {
@@ -164,7 +167,7 @@ socketServer.on("connection", async (socket) => {
 		const password = data.password;
 		const login = await AuthServices.login(email, password);
 		if (login) {
-			console.log("inicio correcto");
+			logger.debug("inicio correcto");
 			socket.emit("redirect");
 		} else {
 			socket.emit("datosIncorrectos");
@@ -178,5 +181,51 @@ socketServer.on("connection", async (socket) => {
 		} else {
 			socket.emit("ErrorDeRegistro");
 		}
+	});
+
+	//Password Recovery
+
+	socket.on("recPass", async (mail) => {
+		const token = Jwt.sign(
+			{ email: process.env.USER_GMAIL },
+			process.env.SECRET,
+			{ expiresIn: "1h" }
+		);
+
+		const recoveryLink = `http://localhost:4000/recovery/?token=${token}`;
+
+		const mailOptions = {
+			from: process.env.USER_GMAIL,
+			to: mail,
+			html: `<h1>Recuperación de contraseña</h1> <p>Haz solicitado un cambio de contraseña, pulsa el boton para continuar</p> <button><a href='${recoveryLink}' > Recuperar contraseña</a></button>`,
+			subject: "Cambio de contraseña",
+		};
+		const transportGmail = createTransport({
+			service: "gmail",
+			port: 587,
+			auth: {
+				user: process.env.USER_GMAIL,
+				pass: process.env.PASS_GMAIL,
+			},
+		});
+		async function sendEmail() {
+			try {
+				const response = await transportGmail.sendMail(mailOptions);
+				logger.debug(response);
+				logger.info(token);
+			} catch (error) {
+				throw new Error(error.message);
+			}
+		}
+		sendEmail();
+	});
+
+	socket.on("newPass", async (data) => {
+		const email = data.email;
+		const newPass = data.newPass;
+		const update = {
+			password: newPass,
+		};
+		factory.user.updateUser(email, update);
 	});
 });
